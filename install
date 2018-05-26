@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+[ -z "${1}" ] && { echo "Usage: $0 <dir>"; exit 1; }
+
+go get -v ./...
+for f in ./scripts/*; do
+    path="${1}/`basename ${f%.sh}`"
+    printf "Linking %s to %s\n" "${f}" "${path}"
+    ln -sf `realpath --relative-to="${1}" "${f}"` ${path}
+done
